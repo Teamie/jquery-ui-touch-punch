@@ -35,10 +35,31 @@
       return;
     }
 
-    event.preventDefault();
-
     var touch = event.originalEvent.changedTouches[0],
         simulatedEvent = document.createEvent('MouseEvents');
+
+    // https://stackoverflow.com/a/18647882
+    var targetElement = $(touch.target);
+    // these tags are possible with editor
+    var allTags = [
+      'p', 'span', 'a',
+      'strong', 'em', 'u',
+      'li', 'blockquote',
+      'sup', 'sub',
+      'textarea', 'input'
+    ];
+    var isTargetMatch = false;
+    for (var i = 0; i < allTags.length; i++) {
+      if (targetElement.is(allTags[i])) {
+        isTargetMatch = true;
+        break;
+      }
+    }
+    if (isTargetMatch) {
+      event.stopPropagation();
+    } else {
+      event.preventDefault();
+    }
     
     // Initialize the simulated mouse event using the touch event's coordinates
     simulatedEvent.initMouseEvent(
