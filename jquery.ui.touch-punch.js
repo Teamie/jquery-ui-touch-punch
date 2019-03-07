@@ -41,11 +41,21 @@
     // https://stackoverflow.com/a/18647882
     var targetElement = $(touch.target);
     // these tags are possible with editor
-    if (targetElement.is('p') || targetElement.is('span') || targetElement.is('a')
-      || targetElement.is('strong') || targetElement.is('em') || targetElement.is('u')
-      || targetElement.is('li') || targetElement.is('blockquote')
-      || targetElement.is('sup') || targetElement.is('sub')
-      || targetElement.is('textarea') || targetElement.is('input')) {
+    var allTags = [
+      'p', 'span', 'a',
+      'strong', 'em', 'u',
+      'li', 'blockquote',
+      'sup', 'sub',
+      'textarea', 'input'
+    ];
+    var isTargetMatch = false;
+    for (var i = 0; i < allTags.length; i++) {
+      if (targetElement.is(allTags[i])) {
+        isTargetMatch = true;
+        break;
+      }
+    }
+    if (isTargetMatch) {
       event.stopPropagation();
     } else {
       event.preventDefault();
